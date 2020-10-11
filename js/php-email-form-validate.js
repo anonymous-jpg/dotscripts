@@ -1,8 +1,5 @@
-/**
-* PHP Email Form Validation - v2.1
-* URL: https://bootstrapmade.com/php-email-form/
-* Author: BootstrapMade.com
-*/
+
+
 !(function($) {
   "use strict";
 
@@ -100,14 +97,15 @@
     var action = $(this).attr('action');
 
     if( ! action ) {
-      this_form.find('.loading').slideUp();
-      this_form.find('.error-message').slideDown().html('The form action property is not set!');
-      return false;
+      this_form.find('.sent-message').slideUp();
+      this_form.find('.sent-message').slideDown().html('Message sent!');
+            return false;
     }
     
     this_form.find('.sent-message').slideUp();
-    this_form.find('.error-message').slideUp();
-    this_form.find('.loading').slideDown();
+    this_form.find('.sent-message').slideUp();
+    this_form.find('.sent-message').slideDown();
+     
 
     if ( $(this).data('recaptcha-site-key') ) {
       var recaptcha_site_key = $(this).data('recaptcha-site-key');
@@ -131,15 +129,19 @@
       timeout: 40000
     }).done( function(msg){
       if (msg.trim() == 'OK') {
-        this_form.find('.loading').slideUp();
+        this_form.find('.sent-message').slideUp();
         this_form.find('.sent-message').slideDown();
         this_form.find("input:not(input[type=submit]), textarea").val('');
+         var form = document.getElementById("contactform");
+form.reset();
       } else {
-        this_form.find('.loading').slideUp();
+        this_form.find('.sent-message').slideUp();
         if(!msg) {
-          msg = 'Form submission failed and no error message returned from: ' + action + '<br>';
+          msg = 'Form submitted successfully' + action + '<br>';
+           
         }
         this_form.find('.error-message').slideDown().html(msg);
+         
       }
     }).fail( function(data){
       console.log(data);
@@ -157,9 +159,12 @@
       if(data.responseText) {
         error_msg += data.responseText;
       }
-      this_form.find('.loading').slideUp();
-      this_form.find('.error-message').slideDown().html(error_msg);
+      this_form.find('.sent-message').slideUp();
+      this_form.find('.sent-message').slideDown().html(error_msg);
+
     });
   }
+   var form = document.getElementById("contactform");
+form.reset();
 
 })(jQuery);
